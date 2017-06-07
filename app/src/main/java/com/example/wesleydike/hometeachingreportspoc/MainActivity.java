@@ -9,5 +9,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //test Jefferson
+        //test Spencer
+        //test conflict!!
+        //test conflict!!Jefferson
+        //Merge Jefferson!
+        //Merge Me!
     }
 }
