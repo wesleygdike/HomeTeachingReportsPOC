@@ -21,6 +21,7 @@ public class Ward {
     }
 
     public String getName() {
+
         return name;
     }
 
@@ -33,10 +34,10 @@ public class Ward {
     }
 
     public List<Family> getFamilies() {
+
         return families;
     }
 
-    //Encapsulating functions
     public void addHomeTeacher(User newUser) {
 
     }
@@ -46,6 +47,7 @@ public class Ward {
     }
 
     public List<User> getHomeTeachers() {
+
         return homeTeachers;
     }
 }

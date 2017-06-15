@@ -20,7 +20,7 @@ public class Family {
     }
 
     public void addMember(Person newMember) {
-
+        members.add(newMember);
     }
 
     public void removeMember (Person exMember) {
