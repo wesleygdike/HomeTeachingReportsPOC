@@ -2,6 +2,7 @@ package com.example.wesleydike.hometeachingreportspoc;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         //Merge Me!
     }
 
-    public void familiesButtonPressed() {
+    public void familiesButtonPressed(View view) {
         Person temp = new  Person();
     }
 }
