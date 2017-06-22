@@ -11,6 +11,8 @@ public class User {
     private List<Family> families;
     private String credentials;
     private User companion;
+    private String idNum;
+
 
     //Constructors
     //Your non-Default constructors can home base right here <---

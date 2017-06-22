@@ -10,8 +10,13 @@ public class Family {
     //Private information of which is in regard to the designated family
     private List<Person> members;
     private List<Report> reports;
+    private String idNum;
+
 
     //Constructors
+    Family() {
+
+    }
     //Your non-Default constructors can home base right here <---
 
     //Encapsulating functions

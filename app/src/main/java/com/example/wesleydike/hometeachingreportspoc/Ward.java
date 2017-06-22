@@ -11,6 +11,8 @@ public class Ward {
     private String name;
     private List<Family> families;
     private List<User> homeTeachers;
+    private String idNum;
+
 
     //Constructors
         //Your non-Default constructors can home base right here <---

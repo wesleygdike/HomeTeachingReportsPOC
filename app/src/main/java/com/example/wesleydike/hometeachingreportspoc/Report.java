@@ -12,6 +12,8 @@ public class Report {
     private int month;
     private Map keyIndicators;
     private Family family;
+    private String idNum;
+
 
     //Constructors
     //Your non-Default constructors can home base right here <---

@@ -1,5 +1,7 @@
 package com.example.wesleydike.hometeachingreportspoc;
 
+import android.util.Log;
+
 import java.util.Date;
 
 /**
@@ -7,12 +9,20 @@ import java.util.Date;
  */
 
 public class Person {
+    static int ID_COUNT;
+    private String idNum;
     //Private Personal informations
-    private String name;
-    private int age;
+    private String name = "Enter Name";
+    private int age = 0;
     private Date birthDate;
 
     //Constructors
+    Person() {
+        //load default person information
+        //Log information
+        idNum = name + ID_COUNT++;
+        Log.i("Person ID: " + idNum, "New Person: " + idNum + "created successfully.");
+    }
     //Your non-Default constructors can home base right here <---
 
     //Encapsulating functions
