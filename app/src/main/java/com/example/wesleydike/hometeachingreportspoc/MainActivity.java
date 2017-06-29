@@ -13,6 +13,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * <p>Landing page of the Application</p>
+ */
 public class MainActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -52,9 +55,13 @@ public class MainActivity extends AppCompatActivity {
         //Merge Me!
     }
 
+    /**
+     * acctions performed on Familiesbutton click
+     * @param view
+     */
     public void familiesButtonPressed(View view) {
 
-        if(ref.toString() == "hello world") {
+        if(ref.toString().compareTo("hello world") > 0) {
             ref.setValue("toggled");
         } else {
             ref.setValue("hello world");

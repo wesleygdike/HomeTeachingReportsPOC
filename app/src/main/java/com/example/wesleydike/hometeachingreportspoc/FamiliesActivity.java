@@ -3,6 +3,9 @@ package com.example.wesleydike.hometeachingreportspoc;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+/**
+ * <p>Families information Page</p>
+ */
 public class FamiliesActivity extends AppCompatActivity {
 
     @Override
