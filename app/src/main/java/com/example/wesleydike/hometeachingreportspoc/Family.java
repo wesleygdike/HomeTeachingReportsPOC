@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class Family {
+    static  int id = 0;
     //Private information of which is in regard to the designated family
     private List<Person> members;
     private List<Report> reports;
@@ -16,11 +17,13 @@ public class Family {
 
     //Constructors
     Family() {
-
+        idNum = "" + id++;
     }
     //Your non-Default constructors can home base right here <---
 
     //Encapsulating functions
+    /**Returns idNum for this instance of familiy*/
+    public String getIdNum() { return idNum; }
     /**Returns Familiy members as a list of Persons*/
     public List<Person> getMembers () {
         return members;

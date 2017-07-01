@@ -1,5 +1,6 @@
 package com.example.wesleydike.hometeachingreportspoc;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,12 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 //add log
             }
         });
-        //test Jefferson
-        //test Spencer
-        //test conflict!!
-        //test conflict!!Jefferson
-        //Merge Jefferson!
-        //Merge Me!
     }
 
     /**
@@ -60,11 +55,16 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void familiesButtonPressed(View view) {
+        Intent intent = new Intent(this, FamiliesActivity.class);
+        startActivity(intent);
+    }
 
-        if(ref.toString().compareTo("hello world") > 0) {
-            ref.setValue("toggled");
-        } else {
-            ref.setValue("hello world");
-        }
+    /**
+     * actions preformed on Roportsbutton click
+     * @param view
+     */
+    public void reportsButtonPressed(View view) {
+        Intent intent = new Intent(this, ReportsActivity.class);
+        startActivity(intent);
     }
 }
