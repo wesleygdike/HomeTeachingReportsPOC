@@ -1,6 +1,7 @@
 package com.example.wesleydike.hometeachingreportspoc;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,16 +29,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         familiesButton = (Button)findViewById(R.id.familiesButton);
         testText = (TextView) findViewById(R.id.textView);
-        ref = database.getReference("test");
+        ref = database.getReference("TestUser");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //this is called on intial value and when data is changed
-                String value = dataSnapshot.getValue(String.class);
-                testText.setText(value);
+                User user = dataSnapshot.getValue(User.class);
+                testText.setText("64%");
+                SharedPreferences prefs = getPreferences(0);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("USER", "TestUser");
                 //add log
                 Log.d("MainAcitiviy_Listener","Test on data change");
             }
@@ -48,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 //add log
             }
         });
+
     }
+
+
 
     /**
      * acctions performed on Familiesbutton click
