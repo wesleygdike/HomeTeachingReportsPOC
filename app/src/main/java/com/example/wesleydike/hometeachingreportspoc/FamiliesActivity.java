@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,47 +16,62 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * <p>Families information Page</p>
  */
 public class FamiliesActivity extends AppCompatActivity {
-    FirebaseDatabase data;
+    FirebaseDatabase database;
     DatabaseReference userRef;
+    DatabaseReference familiesRef;
+    String userID;
+
+    HashMap<String, Family> familiesMap = new HashMap<>();
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_families);
-        final ListView listView = (ListView) findViewById(R.id.listView);
-        SharedPreferences prefs = getPreferences(0);
-        String userId = prefs.getString("USER", "TestUser");
-        data = FirebaseDatabase.getInstance();
-        userRef = data.getReference(userId);
-        userRef.addValueEventListener(new ValueEventListener() {
+        listView = (ListView) findViewById(R.id.lvFamilies);
+        userID = getSharedPreferences("HTRprefs",0).getString("userID", "TestUser");
+        userRef = database.getReference().child("Users").child(userID);
+        familiesRef = userRef.child("Families");
+        userRef.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("FamiliesAcitiviy_Lstnr","Test on Families data change.");
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Family family = dataSnapshot.getValue(Family.class);
+                familiesMap.put(family.getIdNum(), family);
+                updateListView();
+            }
 
-                User user = dataSnapshot.getValue(User.class);
-                if (user.getFamilies() != null) {
-                    listView.setAdapter(
-                            new ArrayAdapter<Family>(getBaseContext(),
-                                    R.layout.families_view,
-                                    R.id.textView,
-                                    user.getFamilies()
-                            ));
-                }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("FamiliesAcitiviy_Error","Test on Families data change Failed!");
 
             }
         });
     }
 
-    private void populateListview() {
+    private void updateListView() {
+
+        FamilyListAdapter arrayAdapter = new FamilyListAdapter
+                (this, R.layout.families_view, new ArrayList<Family>(familiesMap.values()));
+        listView.setAdapter(arrayAdapter);
 
     }
 

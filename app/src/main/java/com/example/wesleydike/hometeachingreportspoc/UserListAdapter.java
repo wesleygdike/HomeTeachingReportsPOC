@@ -7,25 +7,23 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by Wesley Dike on 7/12/2017.
+ * Created by Wesley Dike on 7/14/2017.
  */
 
-public class FamilyListAdapter extends ArrayAdapter<Family> {
+public class UserListAdapter extends ArrayAdapter<User> {
     Context context;
     int resource;
 
-    public FamilyListAdapter(
+    public UserListAdapter(
             @NonNull Context context,
             @LayoutRes int resource,
-            @NonNull ArrayList<Family> objects) {
+            @NonNull ArrayList<User> objects) {
         super(context, resource, objects);
         this.context = context;
         this.resource = resource;
@@ -39,12 +37,13 @@ public class FamilyListAdapter extends ArrayAdapter<Family> {
 
         TextView textView = (TextView) convertView.findViewById(R.id.nameTextView);
 
-        Family currentFamily = getItem(position);
-        if(currentFamily.getIdNum() != null) {
-            textView.setText(currentFamily.getIdNum());
+        User currentUser = getItem(position);
+        if(currentUser.getIdNum() != null) {
+            textView.setText(currentUser.getIdNum());
         } else {
             textView.setText("Null Pointer!");
         }
         return convertView;
     }
 }
+

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -19,48 +20,31 @@ import com.google.firebase.database.ValueEventListener;
  * <p>Landing page of the Application</p>
  */
 public class MainActivity extends AppCompatActivity {
-
+    public final String HTR_PREFS = "HTRprefs";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     Button familiesButton;
     TextView testText;
     DatabaseReference ref;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         familiesButton = (Button)findViewById(R.id.familiesButton);
-        testText = (TextView) findViewById(R.id.textView);
-        ref = database.getReference();
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //this is called on intial value and when data is changed
-                User user = dataSnapshot.getValue(User.class);
-                testText.setText("64%");
-                SharedPreferences prefs = getPreferences(0);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("USER", "TestUser");
-                //add log
-                Log.d("MainAcitiviy_Listener","Test on data change");
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //failed to read value
-                //add log
-            }
-        });
-
+        EditText userIDInput = (EditText) findViewById(R.id.editText);
+        String userID = userIDInput.getText().toString();
+        ref = database.getReference().child("USERS").child(userID);
     }
-
-
 
     /**
      * acctions performed on Familiesbutton click
      * @param view
      */
     public void familiesButtonPressed(View view) {
+        SharedPreferences preferences = getSharedPreferences(HTR_PREFS, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("userID", userID);
         Intent intent = new Intent(this, FamiliesActivity.class);
         startActivity(intent);
     }
@@ -70,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void reportsButtonPressed(View view) {
+        SharedPreferences preferences = getSharedPreferences(HTR_PREFS, 0);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("userID", userID);
         Intent intent = new Intent(this, ReportsActivity.class);
         startActivity(intent);
     }

@@ -76,7 +76,7 @@ public class TestActivity extends AppCompatActivity {
 
     private void updateListView() {
 
-        FamilyListAdapter arrayAdapter = new FamilyListAdapter
+        UserListAdapter arrayAdapter = new UserListAdapter
                 (this, R.layout.families_view, new ArrayList<User>(userList.values()));
         listView.setAdapter(arrayAdapter);
 
@@ -88,6 +88,11 @@ public class TestActivity extends AppCompatActivity {
      */
     public void addUserButtonPressed(View view) {
         DatabaseReference usersRef = database.getReference();
+        //TO-DO Instead of adding a blank user we need to make it so a pop-up appears
+        //and allows us to fill in as least a Name, at best it would also accept a number
+        //for how many member of the familiy there will be. then one you hit OK another pop-up
+        //would appear for each new member of the familiy prompting user for Name, age and
+        //Birthday.
         User user = new User();
         usersRef.child("Users").child(user.getIdNum()).setValue(user);
     }
