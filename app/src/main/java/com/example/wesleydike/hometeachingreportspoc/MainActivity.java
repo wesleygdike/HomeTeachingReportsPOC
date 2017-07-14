@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         familiesButton = (Button)findViewById(R.id.familiesButton);
         testText = (TextView) findViewById(R.id.textView);
-        ref = database.getReference("TestUser");
+        ref = database.getReference();
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -71,6 +71,15 @@ public class MainActivity extends AppCompatActivity {
      */
     public void reportsButtonPressed(View view) {
         Intent intent = new Intent(this, ReportsActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * actions preformed on Roportsbutton click
+     * @param view
+     */
+    public void TestButtonPressed(View view) {
+        Intent intent = new Intent(this, TestActivity.class);
         startActivity(intent);
     }
 }

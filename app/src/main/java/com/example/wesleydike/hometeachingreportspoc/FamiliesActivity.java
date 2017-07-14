@@ -37,13 +37,14 @@ public class FamiliesActivity extends AppCompatActivity {
                 Log.d("FamiliesAcitiviy_Lstnr","Test on Families data change.");
 
                 User user = dataSnapshot.getValue(User.class);
-                user.addFamily(new Family());
-                listView.setAdapter(
-                        new ArrayAdapter<Family>(getBaseContext(),
-                                R.layout.families_view,
-                                R.id.textView,
-                                user.getFamilies()
-                        ));
+                if (user.getFamilies() != null) {
+                    listView.setAdapter(
+                            new ArrayAdapter<Family>(getBaseContext(),
+                                    R.layout.families_view,
+                                    R.id.textView,
+                                    user.getFamilies()
+                            ));
+                }
             }
 
             @Override
@@ -61,7 +62,7 @@ public class FamiliesActivity extends AppCompatActivity {
     public void addFamily(View view) {
         Log.d("FamiliesAcitiviy_adfam","Adding a family to the User");
         Family temp = new Family();
-        userRef.child(temp.getIdNum()).setValue(temp);
-
+        temp.setName("TestFamily");
+        userRef.setValue("test");
     }
 }

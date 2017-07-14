@@ -12,6 +12,7 @@ public class Family {
     //Private information of which is in regard to the designated family
     private List<Person> members;
     private List<Report> reports;
+    private String name;
     private String idNum;
 
 
@@ -19,10 +20,21 @@ public class Family {
     Family() {
         idNum = "" + id++;
     }
+    Family(String name, List<Person> members) {
+        this.name = name;
+        this.members = members;
+    }
     //Your non-Default constructors can home base right here <---
 
     //Encapsulating functions
     /**Returns idNum for this instance of familiy*/
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public String getIdNum() { return idNum; }
     /**Returns Familiy members as a list of Persons*/
     public List<Person> getMembers () {

@@ -17,4 +17,6 @@ public class FamilyListAdapter extends ArrayAdapter<Family> {
     public FamilyListAdapter(@NonNull Context context, @LayoutRes int resource) {
         super(context, resource);
     }
+
+    
 }

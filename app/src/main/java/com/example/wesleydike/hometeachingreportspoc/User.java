@@ -7,14 +7,19 @@ import java.util.List;
  */
 
 public class User {
+    static private int id = 0;
     //These are the unseen bits of the User
     private List<Family> families;
     private String credentials;
+    private String Name;
     private User companion;
     private String idNum;
 
 
     //Constructors
+    User() {
+        idNum = "User" + id;
+    }
     //Your non-Default constructors can home base right here <---
 
     //Encapsulating functions
