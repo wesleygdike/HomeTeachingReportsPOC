@@ -18,13 +18,29 @@ public class User {
 
     //Constructors
     User() {
-        idNum = "User" + id;
+        idNum = "User" + id++;
     }
     //Your non-Default constructors can home base right here <---
 
     //Encapsulating functions
     public void addFamily(Family newFamily) {
 
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getIdNum() {
+        return idNum;
+    }
+
+    public void setIdNum(String idNum) {
+        this.idNum = idNum;
     }
 
     public void removeFamily(Family exFamily) {
