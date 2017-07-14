@@ -28,7 +28,7 @@ import java.util.zip.Inflater;
 
 public class TestActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    ListView listView;
     HashMap<String, User> userList = new HashMap<String, User>();
     //ArrayList<User> userList = new ArrayList<User>();
 
@@ -38,15 +38,17 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
 
+        listView = (ListView) findViewById(R.id.lvUserIDs);
 
-        final ListView listView = (ListView)findViewById(R.id.listView);
+        final ListView listView = (ListView)findViewById(R.id.lvUserIDs);
 
         DatabaseReference usersRef = database.getReference().child("Users");
-        usersRef.child("User").addChildEventListener(new ChildEventListener() {
+        usersRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                User user = (User)dataSnapshot.getValue();
+                User user = dataSnapshot.getValue(User.class);
                 userList.put(user.getIdNum(), user);
+                updateListView();
             }
 
 
@@ -74,8 +76,10 @@ public class TestActivity extends AppCompatActivity {
 
     private void updateListView() {
 
-        ArrayAdapter<User> arrayAdapter = new ArrayAdapter<User>
-                (this, android.R.layout.simple_list_item_1, (ArrayList<User>)userList.values());
+        FamilyListAdapter arrayAdapter = new FamilyListAdapter
+                (this, R.layout.families_view, new ArrayList<User>(userList.values()));
+        listView.setAdapter(arrayAdapter);
+
     }
 
     /**
@@ -83,7 +87,7 @@ public class TestActivity extends AppCompatActivity {
      * @param view
      */
     public void addUserButtonPressed(View view) {
-        DatabaseReference usersRef = database.getReference().child("Users");
+        DatabaseReference usersRef = database.getReference();
         User user = new User();
         usersRef.child("Users").child(user.getIdNum()).setValue(user);
     }
