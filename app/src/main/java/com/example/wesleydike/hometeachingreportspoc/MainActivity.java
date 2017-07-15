@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
  * <p>Landing page of the Application</p>
  */
 public class MainActivity extends AppCompatActivity {
-    public final String HTR_PREFS = "HTRprefs";
+    public static final String USERID = "userID";
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     Button familiesButton;
     TextView testText;
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         familiesButton = (Button)findViewById(R.id.familiesButton);
         EditText userIDInput = (EditText) findViewById(R.id.editText);
-        String userID = userIDInput.getText().toString();
+        userID = userIDInput.getText().toString();
         ref = database.getReference().child("USERS").child(userID);
     }
 
@@ -42,10 +42,8 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void familiesButtonPressed(View view) {
-        SharedPreferences preferences = getSharedPreferences(HTR_PREFS, 0);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("userID", userID);
         Intent intent = new Intent(this, FamiliesActivity.class);
+        intent.putExtra(USERID, userID);
         startActivity(intent);
     }
 
@@ -54,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void reportsButtonPressed(View view) {
-        SharedPreferences preferences = getSharedPreferences(HTR_PREFS, 0);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("userID", userID);
         Intent intent = new Intent(this, ReportsActivity.class);
         startActivity(intent);
     }
@@ -67,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void TestButtonPressed(View view) {
         Intent intent = new Intent(this, TestActivity.class);
+        intent.putExtra(USERID, userID);
         startActivity(intent);
     }
 }

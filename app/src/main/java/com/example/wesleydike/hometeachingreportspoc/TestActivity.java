@@ -7,6 +7,7 @@ import android.database.DataSetObserver;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,23 @@ public class TestActivity extends AppCompatActivity {
     ListView listView;
     HashMap<String, User> userList = new HashMap<String, User>();
     SharedPreferences preferences;
+    String userID;
     User user;
+
+    //Family Dialog Variables
+    Family mFamily;
+    AlertDialog.Builder mBuilder;
+    View mView;
+    EditText etFamilyName;
+    EditText etNumberOfMembers;
+    Button btnComplete;
+    //Person Dialog Variables
+    AlertDialog.Builder mPersonBuilder;
+    View mPersonView;
+    EditText etPersonName;
+    EditText etPersonAge;
+    EditText etPersonBirthday;
+    Button btnPersonComplete;
     //ArrayList<User> userList = new ArrayList<User>();
 
 
@@ -45,9 +62,9 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        preferences = getSharedPreferences("HTRprefs",0);
+        userID = getIntent().getStringExtra(MainActivity.USERID);
         listView = (ListView) findViewById(R.id.lvUserIDs);
-        final ListView listView = (ListView)findViewById(R.id.lvUserIDs);
+        final ListView listView = (ListView) findViewById(R.id.lvUserIDs);
         DatabaseReference usersRef = database.getReference().child("Users");
         usersRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -78,7 +95,9 @@ public class TestActivity extends AppCompatActivity {
 
             }
         });
-        user = userList.get(preferences.getString("USER", "TestUser"));
+        Log.i("TestAcitiviy_SetUser", "Preferences USER String value is: " + userID);
+        user = userList.get(userID);
+        Log.i("TestAcitiviy_CurUser", "User value set to: ");
     }
 
     private void updateListView() {
@@ -91,132 +110,104 @@ public class TestActivity extends AppCompatActivity {
 
     /**
      * actions performed on Familiesbutton click
+     *
      * @param view
      */
     public void addUserButtonPressed(View view) {
-        final Family mFamily = new Family();
-        final ArrayList<Family> mFamilies = new ArrayList<>(user.getFamilies());
-        DatabaseReference usersRef = database.getReference();
-        //TO-DO Instead of adding a blank user we need to make it so a pop-up appears
-        //and allows us to fill in as least a Name, at best it would also accept a number
-        //for how many member of the familiy there will be. then one you hit OK another pop-up
-        //would appear for each new member of the familiy prompting user for Name, age and
-        //Birthday.
+        User newUser = new User();
+        user = newUser;
+        DatabaseReference usersRef = database.getReference().child("Users");
+        usersRef.child(newUser.getIdNum()).setValue(newUser);
+    }
+
+    /**
+     * acctions performed on Familiesbutton click
+     *
+     * @param view
+     */
+    public void testDialog(View view) {
         final AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         View mView = getLayoutInflater().inflate(R.layout.family_information_dialog, null);
-        final EditText etFamilyName = (EditText) mView.findViewById(R.id.etFamliyName);
-        final EditText etNumberOfMembers = (EditText) mView.findViewById(R.id.etNumberOfMembers);
-        Button btnComplete = (Button) mView.findViewById(R.id.btnComplete);
-        btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (etFamilyName.getText() != null && etNumberOfMembers != null) {
-                    mFamily.setName(etFamilyName.getText().toString());
-                    for (int i = 0;
-                         i < Integer.getInteger(etNumberOfMembers.getText().toString());
-                         i++) {
-                        final AlertDialog.Builder mPersonBuilder = new AlertDialog.Builder(TestActivity.this);
-                        View mPersonView = getLayoutInflater().inflate(R.layout.family_information_dialog, null);
-                        final EditText etPersonName = (EditText) mPersonView.findViewById(R.id.etPersonName);
-                        final EditText etPersonAge = (EditText) mPersonView.findViewById(R.id.etPersonAge);
-                        final EditText etPersonBirthday = (EditText) mPersonView.findViewById(R.id.etPersonBirthday);
-                        Button btnPersonComplete = (Button) mPersonView.findViewById(R.id.btnPersonComplete);
-                        btnPersonComplete.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (etPersonName.getText() != null
-                                        && etPersonAge.getText() != null
-                                        && etPersonBirthday != null) {
-                                    Person mCurrentPerson = new Person();
-                                    mCurrentPerson.setName(etPersonName.getText().toString());
-                                    mCurrentPerson.setAge(Integer.getInteger(etPersonAge.getText().toString()));
-                                    mCurrentPerson.setBirthDate(etPersonBirthday.getText().toString());
-                                    mFamily.addMember(mCurrentPerson);
-                                } else {
-                                    //make Toast propting for input
-                                }
-                            }
-                        });
-                        mPersonBuilder.setView(R.layout.person_information_dialog);
-                        AlertDialog personDialog = mPersonBuilder.create();
-                        personDialog.show();
-                    }
-                } else {
-                    //make Toast propting for input
-                }
-            }
-
-        });
-        user.addFamily(mFamily);
         mBuilder.setView(R.layout.family_information_dialog);
         AlertDialog familyDialog = mBuilder.create();
         familyDialog.show();
-        usersRef.child("Users").child(user.getIdNum()).setValue(user);
     }
 
     /**
      * acctions performed on Familiesbutton click
-     * @param view
-     */
-    public void testDialog (View view) {
-
-    }
-
-    /**
-     * acctions performed on Familiesbutton click
+     *
      * @param view
      */
     public void addFamilyButtonPressed(View view) {
-        final Family mFamily = new Family();
-        final AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
-        View mView = getLayoutInflater().inflate(R.layout.family_information_dialog, null);
-        final EditText etFamilyName = (EditText) mView.findViewById(R.id.etFamliyName);
-        final EditText etNumberOfMembers = (EditText) mView.findViewById(R.id.etNumberOfMembers);
-        Button btnComplete = (Button) mView.findViewById(R.id.btnComplete);
-        btnComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (etFamilyName.getText() != null && etNumberOfMembers != null) {
-                    mFamily.setName(etFamilyName.getText().toString());
-                    for (int i = 0;
-                         i < Integer.getInteger(etNumberOfMembers.getText().toString());
-                         i++) {
-                        final AlertDialog.Builder mPersonBuilder = new AlertDialog.Builder(TestActivity.this);
-                        View mPersonView = getLayoutInflater().inflate(R.layout.family_information_dialog, null);
-                        final EditText etPersonName = (EditText) mPersonView.findViewById(R.id.etPersonName);
-                        final EditText etPersonAge = (EditText) mPersonView.findViewById(R.id.etPersonAge);
-                        final EditText etPersonBirthday = (EditText) mPersonView.findViewById(R.id.etPersonBirthday);
-                        Button btnPersonComplete = (Button) mPersonView.findViewById(R.id.btnPersonComplete);
-                        btnPersonComplete.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (etPersonName.getText() != null
-                                        && etPersonAge.getText() != null
-                                        && etPersonBirthday != null) {
-                                    Person mCurrentPerson = new Person();
-                                    mCurrentPerson.setName(etPersonName.getText().toString());
-                                    mCurrentPerson.setAge(Integer.getInteger(etPersonAge.getText().toString()));
-                                    mCurrentPerson.setBirthDate(etPersonBirthday.getText().toString());
-                                    mFamily.addMember(mCurrentPerson);
-                                } else {
-                                    //make Toast propting for input
-                                }
-                            }
-                        });
-                        mPersonBuilder.setView(R.layout.person_information_dialog);
-                        AlertDialog personDialog = mPersonBuilder.create();
-                        personDialog.show();
-                    }
-                } else {
-                    //make Toast propting for input
-                }
-            }
-
-        });
+        Log.i("TestAcitiviy_adfam", "Addfamily btn Pressed");
+        mFamily = new Family();
+        mBuilder = new AlertDialog.Builder(this);
+        mView = getLayoutInflater().inflate(R.layout.family_information_dialog, null);
+        etFamilyName = (EditText) mView.findViewById(R.id.etFamliyName);
+        etNumberOfMembers = (EditText) mView.findViewById(R.id.etNumberOfMembers);
+        btnComplete = (Button) mView.findViewById(R.id.btnComplete);
         user.addFamily(mFamily);
+        Log.i("TestAcitiviy_adFam", "Family creation/addition complete");
         mBuilder.setView(R.layout.family_information_dialog);
         AlertDialog familyDialog = mBuilder.create();
         familyDialog.show();
+        Log.i("TestAcitiviy_adFam", "Family Dialog creation complete");
+    }
+
+    /**
+     * acctions performed on Familiesbutton click
+     *
+     * @param view
+     */
+    public void familyCompleteBtnPressed(View view) {
+        Log.i("TestAcitiviy_adfam", "Family Complete btn Pressed");
+        if (etFamilyName.getText() != null && etNumberOfMembers != null) {
+            mFamily.setName(etFamilyName.getText().toString());
+            for (int i = 0;
+                 i < Integer.getInteger(etNumberOfMembers.getText().toString());
+                 i++) {
+                Log.i("TestAcitiviy_adPer", "Add Person Loop iteration: " + i);
+                mPersonBuilder = new AlertDialog.Builder(TestActivity.this);
+                mPersonView = getLayoutInflater().inflate(R.layout.family_information_dialog, null);
+                etPersonName = (EditText) mPersonView.findViewById(R.id.etPersonName);
+                etPersonAge = (EditText) mPersonView.findViewById(R.id.etPersonAge);
+                etPersonBirthday = (EditText) mPersonView.findViewById(R.id.etPersonBirthday);
+                btnPersonComplete = (Button) mPersonView.findViewById(R.id.btnPersonComplete);
+                mPersonBuilder.setView(R.layout.person_information_dialog);
+                AlertDialog personDialog = mPersonBuilder.create();
+                personDialog.show();
+                Log.i("TestAcitiviy_adPer", "Person Dialog creation complete");
+            }
+        } else {
+            Log.i("TestAcitiviy_adFam", "Family Info fields not populated");
+            //make Toast propting for input
+        }
+    }
+
+    /**
+     * acctions performed on Familiesbutton click
+     *
+     * @param view
+     */
+    public void personCompleteBtnPressed(View view) {
+
+        etPersonName = (EditText) mPersonView.findViewById(R.id.etPersonName);
+        etPersonAge = (EditText) mPersonView.findViewById(R.id.etPersonAge);
+        etPersonBirthday = (EditText) mPersonView.findViewById(R.id.etPersonBirthday);
+        btnPersonComplete = (Button) mPersonView.findViewById(R.id.btnPersonComplete);
+        Log.i("TestAcitiviy_adPer", "Person Complete btn Pressed");
+        if (etPersonName.getText() != null
+                && etPersonAge.getText() != null
+                && etPersonBirthday != null) {
+            Person mCurrentPerson = new Person();
+            mCurrentPerson.setName(etPersonName.getText().toString());
+            mCurrentPerson.setAge(Integer.getInteger(etPersonAge.getText().toString()));
+            mCurrentPerson.setBirthDate(etPersonBirthday.getText().toString());
+            mFamily.addMember(mCurrentPerson);
+            Log.i("TestAcitiviy_adPer", "Person creation/addition complete");
+        } else {
+            Log.i("TestAcitiviy_adPer", "Person Info fields not populated");
+            //make Toast propting for input
+        }
     }
 }
-
