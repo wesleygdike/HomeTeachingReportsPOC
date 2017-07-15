@@ -15,7 +15,7 @@ public class Person {
     //Private Personal informations
     private String name = "Enter Name";
     private int age = 0;
-    private Date birthDate;
+    private String birthDate;
 
     //Constructors
     Person() {
@@ -44,11 +44,11 @@ public class Person {
         this.age = age;
     }
     /**Returns the Persons Date*/
-    public Date getBirthDate() {
+    public String getBirthDate() {
         return birthDate;
     }
     /**Sets the Persons birthDate*/
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
 

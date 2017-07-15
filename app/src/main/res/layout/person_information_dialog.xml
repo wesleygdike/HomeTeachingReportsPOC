@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Family Member Infomation"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/etPersonName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Members Name"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/etPersonAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Members Age"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/etPersonBirthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Members Birth Day mm/dd/yyyy"
+        android:inputType="date" />
+
+    <Button
+        android:id="@+id/btnPersonComplete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete" />
+
+</LinearLayout>
