@@ -1,5 +1,6 @@
 package com.example.wesleydike.hometeachingreportspoc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,12 +20,17 @@ public class User {
     //Constructors
     User() {
         idNum = "User" + id++;
+        families = new ArrayList<>();
     }
     //Your non-Default constructors can home base right here <---
 
     //Encapsulating functions
     public void addFamily(Family newFamily) {
+        families.add(newFamily);
+    }
 
+    public boolean hasFamily() {
+        return !families.isEmpty();
     }
 
     public String getName() {

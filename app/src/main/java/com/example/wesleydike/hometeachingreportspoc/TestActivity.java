@@ -95,7 +95,7 @@ public class TestActivity extends AppCompatActivity {
 
             }
         });
-        Log.i("TestAcitiviy_SetUser", "Preferences USER String value is: " + userID);
+        Log.i("TestAcitiviy_SetUser", "USER String value is: " + userID);
         user = userList.get(userID);
         Log.i("TestAcitiviy_CurUser", "User value set to: ");
     }
@@ -162,9 +162,12 @@ public class TestActivity extends AppCompatActivity {
     public void familyCompleteBtnPressed(View view) {
         Log.i("TestAcitiviy_adfam", "Family Complete btn Pressed");
         if (etFamilyName.getText() != null && etNumberOfMembers != null) {
+            Log.i("TestAcitiviy_famcmplt", "Value of toString etFamilyName: " + etFamilyName.getText().toString());
             mFamily.setName(etFamilyName.getText().toString());
+            Log.i("TestAcitiviy_famcmplt", "Value of toString etNumberOfMembers: " + etNumberOfMembers.getText().toString());
+            int mNumberOfMembers = Integer.parseInt(etNumberOfMembers.getText().toString());
             for (int i = 0;
-                 i < Integer.getInteger(etNumberOfMembers.getText().toString());
+                 i < mNumberOfMembers;
                  i++) {
                 Log.i("TestAcitiviy_adPer", "Add Person Loop iteration: " + i);
                 mPersonBuilder = new AlertDialog.Builder(TestActivity.this);

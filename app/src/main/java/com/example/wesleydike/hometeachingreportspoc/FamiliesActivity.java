@@ -34,7 +34,8 @@ public class FamiliesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_families);
         listView = (ListView) findViewById(R.id.lvFamilies);
-        userID = getSharedPreferences("HTRprefs",0).getString("userID", "TestUser");
+        userID = getIntent().getStringExtra(MainActivity.USERID);
+
         userRef = database.getReference().child("Users").child(userID);
         familiesRef = userRef.child("Families");
         userRef.addChildEventListener(new ChildEventListener() {

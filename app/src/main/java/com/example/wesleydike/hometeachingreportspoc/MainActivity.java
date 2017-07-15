@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,17 +26,40 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     Button familiesButton;
     TextView testText;
-    DatabaseReference ref;
+    EditText userIDInput;
+    DatabaseReference userRef;
     String userID;
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         familiesButton = (Button)findViewById(R.id.familiesButton);
-        EditText userIDInput = (EditText) findViewById(R.id.editText);
+        userIDInput = (EditText) findViewById(R.id.editText);
         userID = userIDInput.getText().toString();
-        ref = database.getReference().child("USERS").child(userID);
+        Log.i("MainAcitiviy","UserID Value:" + userID);
+        userRef = database.getReference().child("Users").child(userID);
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+                Log.i("MainAcitiviy","UserID Value toString:" + dataSnapshot.getValue(User.class).toString());
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    /**
+     * acctions performed on Familiesbutton click
+     *
+     */
+    public void updateUserBtnPressed () {
     }
 
     /**
@@ -42,9 +67,10 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void familiesButtonPressed(View view) {
-        Intent intent = new Intent(this, FamiliesActivity.class);
-        intent.putExtra(USERID, userID);
-        startActivity(intent);
+        updateUserBtnPressed();
+                Intent intent = new Intent(this, FamilyAdderActivity.class);
+                intent.putExtra(USERID, userID);
+                startActivity(intent);
     }
 
     /**
@@ -52,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
      * @param view
      */
     public void reportsButtonPressed(View view) {
+
         Intent intent = new Intent(this, ReportsActivity.class);
         startActivity(intent);
     }
